@@ -1,5 +1,5 @@
 " Vim additional ftplugin: textobj-python
-" Version 0.3.1
+" Version 0.4.1
 " Copyright (C) 2013 Brian Smyth <http://bsmyth.net>
 " License: So-called MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,7 +22,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-" TODO Implement the class objects
 " TODO Define motions
 " TODO Skip improperly-indented comment lines
 " FIXME Handle inner function on multiline def one-liner:
@@ -50,60 +49,65 @@ call textobj#user#plugin('python', {
 \   }
 \})
 
-function! s:class_select_a()
-    return 0
-endfunction
-
-function! s:class_select_i()
-    return 0
-endfunction
-
-function! s:function_select_a()
+function! s:move_cursor_to_starting_line()
+    " Start at a nonblank line
     let l:cur_pos = getpos('.')
     let l:cur_line = getline('.')
-    " Start at a nonblank line
     if l:cur_line =~# '^\s*$'
         call cursor(prevnonblank(l:cur_pos[1]), 0)
-        let l:cur_line = getline('.')
-        let l:cur_pos = getpos('.')
     endif
-    " Find the def line
-    if l:cur_line =~# '^\s*def '
-        let l:def_pos = l:cur_pos
+endfunction
+
+function! s:find_defn_line(kwd)
+    " Find the defn line
+    let l:cur_pos = getpos('.')
+    let l:cur_line = getline('.')
+    if l:cur_line =~# '^\s*'.a:kwd.' '
+        let l:defn_pos = l:cur_pos
     else
+        let l:cur_indent = indent(l:cur_pos[1])
         while 1
-            if search('^\s*def ', 'bW')
-                let l:def_pos = getpos('.')
-                if indent(l:def_pos[1]) >= indent(l:cur_pos[1])
-                    " This is a def at the same level or deeper, keep searching
+            if search('^\s*'.a:kwd.' ', 'bW')
+                let l:defn_pos = getpos('.')
+                if indent(l:defn_pos[1]) >= l:cur_indent
+                    " This is a defn at the same level or deeper, keep searching
                     continue
                 else
-                    " Found the def
+                    " Found a defn, make sure there aren't any statements at a
+                    " shallower indent level in between
+                    for l:l in range(l:defn_pos[1] + 1, l:cur_pos[1])
+                        if getline(l:l) !~# '^\s*$' && indent(l:l) < l:cur_indent
+                            throw "defn-not-found"
+                        endif
+                    endfor
                     break
                 endif
             else
-                " We didn't find a suitable def
-                return 0
+                " We didn't find a suitable defn
+                throw "defn-not-found"
             endif
         endwhile
     endif
-    let l:def_indent_level = indent('.')
-
-    " Find the last line of the method
     call cursor(l:cur_pos[1], l:cur_pos[2])
-    let l:end_pos = getpos('.')
+    return l:defn_pos
+endfunction
+
+function! s:find_last_line(kwd, defn_pos, indent_level)
+    " Find the last line of the block at given indent level
+    let l:cur_pos = getpos('.')
+    let l:end_pos = l:cur_pos
     while 1
         " Is this a one-liner?
-        if getline('.') =~# '^\s*def\[^:\]\+:\s*\[^#\]'
-            return ['V', l:def_pos, l:def_pos]
+        if getline('.') =~# '^\s*'.a:kwd.'\[^:\]\+:\s*\[^#\]'
+            return a:defn_pos
         endif
         " This isn't a one-liner, so skip the def line
-        if line('.') == l:def_pos[1]
+        if line('.') == a:defn_pos[1]
             normal! j
             continue
         endif
         if getline('.') !~# '^\s*$'
-            if indent('.') > l:def_indent_level
+            if indent('.') > a:indent_level
                 let l:end_pos = getpos('.')
             else
                 break
@@ -115,12 +119,27 @@ function! s:function_select_a()
             normal! j
         endif
     endwhile
-
-    return ['V', l:def_pos, l:end_pos]
+    call cursor(l:cur_pos[1], l:cur_pos[2])
+    return l:end_pos
 endfunction
 
-function! s:function_select_i()
-    let l:a_pos = s:function_select_a()
+function! s:select_a(kwd)
+    call s:move_cursor_to_starting_line()
+
+    try
+        let l:defn_pos = s:find_defn_line(a:kwd)
+        let l:defn_indent_level = indent(l:defn_pos[1])
+    catch /defn-not-found/
+        return 0
+    endtry
+
+    let l:end_pos = s:find_last_line(a:kwd, l:defn_pos, l:defn_indent_level)
+
+    return ['V', l:defn_pos, l:end_pos]
+endfunction
+
+function! s:select_i(kwd)
+    let l:a_pos = s:select_a(a:kwd)
     if type(l:a_pos) != type([])
         return 0
     else
@@ -137,6 +156,22 @@ function! s:function_select_i()
         let l:start_pos = getpos('.')
         return ['V', l:start_pos, l:a_pos[2]]
     endif
+endfunction
+
+function! s:class_select_a()
+    return s:select_a('class')
+endfunction
+
+function! s:class_select_i()
+    return s:select_i('class')
+endfunction
+
+function! s:function_select_a()
+    return s:select_a('def')
+endfunction
+
+function! s:function_select_i()
+    return s:select_i('def')
 endfunction
 
 let g:loaded_textobj_python = 1
