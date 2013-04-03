@@ -152,7 +152,7 @@ function! s:select_i(kwd)
         " Put the cursor on the def line
         call cursor(l:a_pos[1][1], l:a_pos[1][2])
         " Get to the closing paren, then go down a line
-        normal! f(%j0
+        normal! ^f(%j0
         let l:start_pos = getpos('.')
         return ['V', l:start_pos, l:a_pos[2]]
     endif
