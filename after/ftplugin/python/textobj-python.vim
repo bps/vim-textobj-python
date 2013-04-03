@@ -34,18 +34,18 @@ endif
 
 call textobj#user#plugin('python', {
 \   'class': {
-\       '*sfile*': expand('<sfile>:p'),
+\       'sfile': expand('<sfile>:p'),
 \       'select-a': 'ac',
 \       'select-i': 'ic',
-\       '*select-a-function*': 's:class_select_a',
-\       '*select-i-function*': 's:class_select_i'
+\       'select-a-function': 's:class_select_a',
+\       'select-i-function': 's:class_select_i'
 \   },
 \   'function': {
-\       '*sfile*': expand('<sfile>:p'),
+\       'sfile': expand('<sfile>:p'),
 \       'select-a': 'af',
 \       'select-i': 'if',
-\       '*select-a-function*': 's:function_select_a',
-\       '*select-i-function*': 's:function_select_i'
+\       'select-a-function': 's:function_select_a',
+\       'select-i-function': 's:function_select_i'
 \   }
 \})
 
