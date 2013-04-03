@@ -69,14 +69,15 @@ function! s:find_defn_line(kwd)
         while 1
             if search('^\s*'.a:kwd.' ', 'bW')
                 let l:defn_pos = getpos('.')
-                if indent(l:defn_pos[1]) >= l:cur_indent
+                let l:defn_indent = indent(l:defn_pos[1])
+                if l:defn_indent >= l:cur_indent
                     " This is a defn at the same level or deeper, keep searching
                     continue
                 else
                     " Found a defn, make sure there aren't any statements at a
                     " shallower indent level in between
                     for l:l in range(l:defn_pos[1] + 1, l:cur_pos[1])
-                        if getline(l:l) !~# '^\s*$' && indent(l:l) < l:cur_indent
+                        if getline(l:l) !~# '^\s*$' && indent(l:l) < l:defn_indent
                             throw "defn-not-found"
                         endif
                     endfor
