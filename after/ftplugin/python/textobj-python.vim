@@ -43,4 +43,13 @@ call textobj#user#plugin('python', {
 \   }
 \})
 
+nnoremap <silent> ]pc :call search('^\s*\zsclass ', 'W')<CR>
+nnoremap <silent> [pc :call search('^\s*\zsclass ', 'bW')<CR>
+nnoremap <silent> ]pf :call search('^\s*\zsdef ', 'W')<CR>
+nnoremap <silent> [pf :call search('^\s*\zsdef ', 'bW')<CR>
+onoremap <silent> ]pc :call search('^\s*\zsclass ', 'W')<CR>
+onoremap <silent> [pc :call search('^\s*\zsclass ', 'bW')<CR>
+onoremap <silent> ]pf :call search('^\s*\zsdef ', 'W')<CR>
+onoremap <silent> [pf :call search('^\s*\zsdef ', 'bW')<CR>
+
 let g:loaded_textobj_python = 1

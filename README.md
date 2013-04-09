@@ -7,6 +7,11 @@ This is a Vim plugin to provide text objects for Python functions and classes.  
 - `ac`: a class
 - `ic`: inner class
 
+It also provides a few motions in normal and operator-pending mode:
+
+- `[pf` / `]pf`: move to next/previous function
+- `[pc` / `]pc`: move to next/previous class
+
 ## Installation
 
 It requires kana's [vim-textobj-user](https://github.com/kana/vim-textobj-user), version 0.4.0 or better. I recommend installing both `vim-textobj-user` and `vim-textobj-python` with [pathogen](https://github.com/tpope/vim-pathogen).
@@ -24,7 +29,6 @@ This will map `if` and `af` to `iF` and `aF`, respectively.
 
 ## TODO
 
-- Define motions
 - Skip improperly-indented comment lines
 - Handle inner function on multiline def one-liner:
 
