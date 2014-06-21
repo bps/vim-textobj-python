@@ -27,6 +27,10 @@ If you'd like to change the default mappings (whether for personal prefence or a
 
 This will map `if` and `af` to `iF` and `aF`, respectively.
 
+## Unit tests
+
+There are a few unit tests available in `test/`. They're written using [Vader](https://github.com/junegunn/vader.vim).
+
 ## TODO
 
 - Skip improperly-indented comment lines
