@@ -1,0 +1,154 @@
+Before (Read in test.py):
+  execute "read " . globpath(fnamemodify(g:vader_file, ":h"), "test.py")
+  setf python
+  normal 1Gdd
+
+Execute (Regular inner function):
+  call cursor(4, 5)
+  normal vif<Esc>
+  AssertEqual 4, getpos("'<")[1]
+  AssertEqual 7, getpos("'>")[1]
+
+Execute (Regular a function):
+  call cursor(4,5)
+  normal vaf<Esc>
+  AssertEqual 3, getpos("'<")[1]
+  AssertEqual 7, getpos("'>")[1]
+
+Execute (Multiline defn inner function):
+  call cursor(15, 11)
+  normal vif<Esc>
+  AssertEqual 15, getpos("'<")[1]
+  AssertEqual 18, getpos("'>")[1]
+
+Execute (Multiline defn a function):
+  call cursor(15, 11)
+  normal vaf<Esc>
+  AssertEqual 13, getpos("'<")[1]
+  AssertEqual 18, getpos("'>")[1]
+
+Execute (One-liner inner function):
+  call cursor(21, 12)
+  normal vif<Esc>
+  AssertEqual 21, getpos("'<")[1]
+  AssertEqual 21, getpos("'>")[1]
+
+Execute (One-liner a function):
+  call cursor(21, 12)
+  normal vaf<Esc>
+  AssertEqual 21, getpos("'<")[1]
+  AssertEqual 21, getpos("'>")[1]
+
+Execute (FIXME Multiline defn one-liner inner function):
+  call cursor(24, 5)
+  normal vif<Esc>
+  AssertEqual 24, getpos("'<")[1]
+  AssertEqual 25, getpos("'>")[1]
+
+Execute (Multiline defn one-liner a function):
+  call cursor(24, 5)
+  normal vaf<Esc>
+  AssertEqual 24, getpos("'<")[1]
+  AssertEqual 25, getpos("'>")[1]
+
+Execute (Outer nested function inner function):
+  call cursor(29, 1)
+  normal vif<Esc>
+  AssertEqual 29, getpos("'<")[1]
+  AssertEqual 34, getpos("'>")[1]
+
+Execute (Outer nested function a function):
+  call cursor(29, 1)
+  normal vaf<Esc>
+  AssertEqual 28, getpos("'<")[1]
+  AssertEqual 34, getpos("'>")[1]
+
+Execute (Inner nested function inner function):
+  call cursor(32, 1)
+  normal vif<Esc>
+  AssertEqual 32, getpos("'<")[1]
+  AssertEqual 33, getpos("'>")[1]
+
+Execute (Inner nested function a function):
+  call cursor(32, 1)
+  normal vaf<Esc>
+  AssertEqual 31, getpos("'<")[1]
+  AssertEqual 33, getpos("'>")[1]
+
+Execute (Simple inner class):
+  call cursor(41, 1)
+  normal vic<Esc>
+  AssertEqual 38, getpos("'<")[1]
+  AssertEqual 44, getpos("'>")[1]
+
+Execute (Simple a class):
+  call cursor(41, 1)
+  normal vac<Esc>
+  AssertEqual 37, getpos("'<")[1]
+  AssertEqual 44, getpos("'>")[1]
+
+Execute (Multiple members inner class):
+  call cursor(52, 1)
+  normal vic<Esc>
+  AssertEqual 48, getpos("'<")[1]
+  AssertEqual 53, getpos("'>")[1]
+
+Execute (Multiple members a class):
+  call cursor(52, 1)
+  normal vac<Esc>
+  AssertEqual 47, getpos("'<")[1]
+  AssertEqual 53, getpos("'>")[1]
+
+Execute (Nested classes outer inner class):
+  call cursor(56, 1)
+  normal vic<Esc>
+  AssertEqual 57, getpos("'<")[1]
+  AssertEqual 58, getpos("'>")[1]
+
+Execute (Nested classes outer a class):
+  call cursor(56, 1)
+  normal vac<Esc>
+  AssertEqual 56, getpos("'<")[1]
+  AssertEqual 58, getpos("'>")[1]
+
+Execute (Nested classes inner inner class):
+  call cursor(57, 1)
+  normal vic<Esc>
+  AssertEqual 58, getpos("'<")[1]
+  AssertEqual 58, getpos("'>")[1]
+
+Execute (Nested classes inner a class):
+  call cursor(57, 1)
+  normal vac<Esc>
+  AssertEqual 57, getpos("'<")[1]
+  AssertEqual 58, getpos("'>")[1]
+
+Execute (Class nested in function inner class):
+  call cursor(65, 1)
+  normal vic<Esc>
+  AssertEqual 66, getpos("'<")[1]
+  AssertEqual 70, getpos("'>")[1]
+
+Execute (Class nested in function a class):
+  call cursor(65, 1)
+  normal vac<Esc>
+  AssertEqual 65, getpos("'<")[1]
+  AssertEqual 70, getpos("'>")[1]
+
+Execute (Function while in class nested in function inner class):
+  call cursor(65, 1)
+  normal vif<Esc>
+  AssertEqual 62, getpos("'<")[1]
+  AssertEqual 70, getpos("'>")[1]
+
+Execute (Function while in class nested in function a class):
+  call cursor(65, 1)
+  normal vaf<Esc>
+  AssertEqual 61, getpos("'<")[1]
+  AssertEqual 70, getpos("'>")[1]
+
+# Execute (Don't cross scope for defn):
+#   call cursor(80, 1)
+#   normal vif<Esc>
+#   AssertEqual 80, getpos("'<")[1]
+#   AssertEqual 80, getpos("'<")[1]
