@@ -127,7 +127,7 @@ function! textobj#python#select_i(kwd)
         call cursor(l:a_pos[1][1], l:a_pos[1][2])
         " Get to the closing parenthesis if it exists
         normal! ^f(%
-        " Go down and to the beginng of the line
+        " Start from the beginning of the next line
         normal! j0
         let l:start_pos = getpos('.')
         return ['V', l:start_pos, l:a_pos[2]]
