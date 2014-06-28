@@ -125,8 +125,10 @@ function! textobj#python#select_i(kwd)
         endif
         " Put the cursor on the def line
         call cursor(l:a_pos[1][1], l:a_pos[1][2])
-        " Get to the closing paren, then go down a line
-        normal! ^f(%j0
+        " Get to the closing parenthesis if it exists
+        normal! ^f(%
+        " Go down and to the beginng of the line
+        normal! j0
         let l:start_pos = getpos('.')
         return ['V', l:start_pos, l:a_pos[2]]
     endif
