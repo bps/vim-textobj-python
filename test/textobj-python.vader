@@ -147,6 +147,18 @@ Execute (Function while in class nested in function a class):
   AssertEqual 61, getpos("'<")[1]
   AssertEqual 70, getpos("'>")[1]
 
+Execute (Old-style no ancestor class inner class):
+  call cursor(86, 9)
+  normal vif<Esc>
+  AssertEqual 87, getpos("'<")[1]
+  AssertEqual 91, getpos("'<")[1]
+
+Execute (Old-style no ancestor class a class):
+  call cursor(86, 9)
+  normal vif<Esc>
+  AssertEqual 86, getpos("'<")[1]
+  AssertEqual 91, getpos("'<")[1]
+
 # Execute (Don't cross scope for defn):
 #   call cursor(80, 1)
 #   normal vif<Esc>

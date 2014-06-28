@@ -81,3 +81,11 @@ class no_defs():
 
     """
     pass
+
+
+class NoAncestor:
+    def foo(self):
+        pass
+
+    def bar(self):
+        pass
