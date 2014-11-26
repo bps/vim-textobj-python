@@ -25,23 +25,23 @@
 call textobj#user#plugin('python', {
 \   'class': {
 \       'sfile': expand('<sfile>:p'),
-\       'select-a': 'ac',
-\       'select-i': 'ic',
+\       'select-a': '<buffer>ac',
+\       'select-i': '<buffer>ic',
 \       'select-a-function': 'textobj#python#class_select_a',
 \       'select-i-function': 'textobj#python#class_select_i',
 \       'pattern': '^\s*\zsclass .*:',
-\       'move-p': '[pc',
-\       'move-n': ']pc',
+\       'move-p': '<buffer>[pc',
+\       'move-n': '<buffer>]pc',
 \   },
 \   'function': {
 \       'sfile': expand('<sfile>:p'),
-\       'select-a': 'af',
-\       'select-i': 'if',
+\       'select-a': '<buffer>af',
+\       'select-i': '<buffer>if',
 \       'select-a-function': 'textobj#python#function_select_a',
 \       'select-i-function': 'textobj#python#function_select_i',
 \       'pattern': '^\s*\zsdef .*:',
-\       'move-p': '[pf',
-\       'move-n': ']pf',
+\       'move-p': '<buffer>[pf',
+\       'move-n': '<buffer>]pf',
 \   }
 \})
 
