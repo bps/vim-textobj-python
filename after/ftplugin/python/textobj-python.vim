@@ -22,10 +22,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_textobj_python')
-  finish
-endif
-
 call textobj#user#plugin('python', {
 \   'class': {
 \       'sfile': expand('<sfile>:p'),
@@ -49,5 +45,3 @@ call textobj#user#plugin('python', {
 \   }
 \})
 
-
-let g:loaded_textobj_python = 1
