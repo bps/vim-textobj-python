@@ -32,24 +32,22 @@ call textobj#user#plugin('python', {
 \       'select-a': 'ac',
 \       'select-i': 'ic',
 \       'select-a-function': 'textobj#python#class_select_a',
-\       'select-i-function': 'textobj#python#class_select_i'
+\       'select-i-function': 'textobj#python#class_select_i',
+\       'pattern': '^\s*\zsclass .*:',
+\       'move-p': '[pc',
+\       'move-n': ']pc',
 \   },
 \   'function': {
 \       'sfile': expand('<sfile>:p'),
 \       'select-a': 'af',
 \       'select-i': 'if',
 \       'select-a-function': 'textobj#python#function_select_a',
-\       'select-i-function': 'textobj#python#function_select_i'
+\       'select-i-function': 'textobj#python#function_select_i',
+\       'pattern': '^\s*\zsdef .*:',
+\       'move-p': '[pf',
+\       'move-n': ']pf',
 \   }
 \})
 
-nnoremap <silent> ]pc :call search('^\s*\zsclass ', 'W')<CR>
-nnoremap <silent> [pc :call search('^\s*\zsclass ', 'bW')<CR>
-nnoremap <silent> ]pf :call search('^\s*\zsdef ', 'W')<CR>
-nnoremap <silent> [pf :call search('^\s*\zsdef ', 'bW')<CR>
-onoremap <silent> ]pc :call search('^\s*\zsclass ', 'W')<CR>
-onoremap <silent> [pc :call search('^\s*\zsclass ', 'bW')<CR>
-onoremap <silent> ]pf :call search('^\s*\zsdef ', 'W')<CR>
-onoremap <silent> [pf :call search('^\s*\zsdef ', 'bW')<CR>
 
 let g:loaded_textobj_python = 1
