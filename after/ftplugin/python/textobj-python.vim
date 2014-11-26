@@ -22,6 +22,19 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
+" Integration with https://github.com/kana/vim-textobj-function.
+if !exists('b:textobj_function_select')
+  let b:textobj_function_select = function('textobj#python#function_select')
+
+  if exists('b:undo_ftplugin')
+    let b:undo_ftplugin .= '|'
+  else
+    let b:undo_ftplugin = ''
+  endif
+  let b:undo_ftplugin .= 'unlet b:textobj_function_select'
+endif
+
+
 if exists('g:loaded_textobj_python')
   finish
 endif

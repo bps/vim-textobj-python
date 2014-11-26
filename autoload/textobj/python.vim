@@ -149,3 +149,7 @@ endfunction
 function! textobj#python#function_select_i()
     return textobj#python#select_i('def')
 endfunction
+
+function! textobj#python#function_select(object_type)
+  return textobj#python#function_select_{a:object_type}()
+endfunction
