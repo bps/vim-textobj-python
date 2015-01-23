@@ -160,7 +160,9 @@ Execute (Old-style no ancestor class a class):
   AssertEqual 91, getpos("'>")[1]
 
 Execute (Don't cross scope for defn):
-  call cursor(80, 1)
-  normal vif<cr>
-  AssertEqual 80, getpos("'<")[1]
-  AssertEqual 80, getpos("'<")[1]
+  /^class no_defs
+  norm j
+  let linenr = getpos(".")[1]
+  norm vaf<cr>
+  AssertEqual getpos(".")[1], linenr, "The line should not have changed."
+  AssertThrows textobj#python#find_defn_line("def")
