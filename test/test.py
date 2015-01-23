@@ -89,3 +89,28 @@ class NoAncestor:
 
     def bar(self):
         pass
+
+
+def decorator(f, *args):
+    pass
+
+@decorator
+class ClassWithDecorator:
+    pass
+
+
+@decorator
+@decorator(1, 2)
+class ClassWithDecorators:
+    pass
+
+
+@decorator
+def function_with_decorator():
+    pass
+
+
+@decorator
+@decorator(1, 2)
+def function_with_decorators():
+    pass

@@ -166,3 +166,31 @@ Execute (Don't cross scope for defn):
   norm vaf<cr>
   AssertEqual getpos(".")[1], linenr, "The line should not have changed."
   AssertThrows textobj#python#find_defn_line("def")
+
+Execute (Decorator: function):
+  /^def function_with_decorator(
+  let linenr = getpos(".")[1]
+  norm jvaf<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: function):
+  /^def function_with_decorators(
+  let linenr = getpos(".")[1]
+  norm jvaf<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorator: class):
+  /^class ClassWithDecorator:
+  let linenr = getpos(".")[1]
+  norm jvac<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: class):
+  /^class ClassWithDecorators:
+  let linenr = getpos(".")[1]
+  norm jvac<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
