@@ -1,21 +1,21 @@
 # Test scenarios for textobj-python
 
 def regular_func(bar, baz):
-    print bar
+    print(bar)
 
-    print baz
-    print "quux"
+    print(baz)
+    print("quux")
 
 
-print "other_stmts"
+print("other_stmts")
 
 
 def multiline_func_def(baz,
                        quux):
-    print baz
-    print quux
+    print(baz)
+    print(quux)
 
-    print "barp"
+    print("barp")
 
 
 def oneliner(): pass
@@ -26,31 +26,31 @@ def multiline_def_oneliner(asdf,
 
 
 def nested_func():
-    print "foo"
+    print("foo")
 
     def the_inner_func():
-        print "bar"
-        print "foo"
-    print "baz"
+        print("bar")
+        print("foo")
+    print("baz")
 
 
 class TrySomething():
     def foo(self):
         try:
-            print "bar"
-        except Exception, e:
-            print e
+            print("bar")
+        except Exception as e:
+            print(e)
         finally:
-            print "finally"
+            print("finally")
 
 
 class RegularClass():
     def __init__(self):
-        print "asdf"
+        print("asdf")
         pass
 
     def bar(self):
-        print self.bar
+        print(self.bar)
 
 
 class NestedClass():
@@ -67,7 +67,7 @@ def this_func_has_a_func():
             pass
 
         def foo(self):
-            print foo
+            print(foo)
 
 
 def one_stmt():
