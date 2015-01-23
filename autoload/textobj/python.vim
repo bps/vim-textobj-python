@@ -62,7 +62,7 @@ function! textobj#python#find_defn_line(kwd)
             endif
         endwhile
     endif
-    call cursor(l:cur_pos[1], l:cur_pos[2])
+    call cursor(defn_pos)
     return l:defn_pos
 endfunction
 
@@ -125,10 +125,10 @@ function! textobj#python#select_a(kwd)
 
     try
         let l:defn_pos = textobj#python#find_defn_line(a:kwd)
-        let l:defn_indent_level = indent(l:defn_pos[1])
     catch /defn-not-found/
         return 0
     endtry
+    let l:defn_indent_level = indent(l:defn_pos[1])
 
     let l:end_pos = textobj#python#find_last_line(a:kwd, l:defn_pos, l:defn_indent_level)
 
