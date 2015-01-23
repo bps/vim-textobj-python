@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Change to script's directory.
+cd -P -- "$(dirname -- "$0")"
+
+# Look for existing vader and textobj-user installations, and link them.
+link_or_clone() {
+    # set -x
+    glob=$1
+    url=$2
+    target=$(basename $url)
+
+    if [[ -e $target ]]; then
+        return
+    fi
+
+    existing=( ${HOME}/.vim/*bundle*/$glob )
+    if [[ -e ${existing[0]} ]]; then
+        # Remove "(plugin|autoload)/*.vim" suffix.
+        existing=${existing[0]%/*/*}
+    fi
+
+    if [[ -d $existing ]]; then
+        [[ ! -L $target ]] && ln -s $existing $target
+    else
+        git clone $url
+    fi
+    # set +x
+}
+
+link_or_clone 'vader*/plugin/vader.vim' https://github.com/junegunn/vader.vim
+link_or_clone '*textobj-user/autoload/textobj' https://github.com/kana/vim-textobj-user
+
+vim -XNu vimrc -i NONE -c 'Vader! *'
