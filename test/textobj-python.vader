@@ -170,6 +170,8 @@ Execute (Don't cross scope for defn):
 Execute (Decorator: function):
   /^def function_with_decorator(
   let linenr = getpos(".")[1]
+"   debug call textobj#python#find_prev_decorators(linenr)
+  AssertEqual linenr-1, textobj#python#find_prev_decorators(linenr)
   norm jvaf<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
@@ -184,6 +186,7 @@ Execute (Decorators: function):
 Execute (Decorator: class):
   /^class ClassWithDecorator:
   let linenr = getpos(".")[1]
+  AssertEqual linenr-1, textobj#python#find_prev_decorators(linenr)
   norm jvac<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"

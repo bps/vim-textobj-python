@@ -66,6 +66,29 @@ function! textobj#python#find_defn_line(kwd)
     return l:defn_pos
 endfunction
 
+function! textobj#python#find_prev_decorators(l)
+    " Find the line with the first (valid) decorator above `line`, return the
+    " current line, if there is none.
+    let linenr = a:l
+    while 1
+        let prev = prevnonblank(linenr-1)
+        if prev == 0 || prev != linenr-1
+            " Line is not above current one.
+            break
+        endif
+        let prev_indent = indent(prev)
+        if prev_indent != indent(linenr)
+            " Line is not indented the same.
+            break
+        endif
+        if getline(prev)[prev_indent] != "@"
+            break
+        endif
+        let linenr = prev
+    endwhile
+    return linenr
+endfunction
+
 function! textobj#python#find_last_line(kwd, defn_pos, indent_level)
     " Find the last line of the block at given indent level
     let l:cur_pos = getpos('.')
@@ -108,6 +131,8 @@ function! textobj#python#select_a(kwd)
     endtry
 
     let l:end_pos = textobj#python#find_last_line(a:kwd, l:defn_pos, l:defn_indent_level)
+
+    let l:defn_pos[1] = textobj#python#find_prev_decorators(l:defn_pos[1])
 
     return ['V', l:defn_pos, l:end_pos]
 endfunction
