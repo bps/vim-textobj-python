@@ -50,7 +50,7 @@ function! textobj#python#find_defn_line(kwd)
                     " Found a defn, make sure there aren't any statements at a
                     " shallower indent level in between
                     for l:l in range(l:defn_pos[1] + 1, l:cur_pos[1])
-                        if getline(l:l) !~# '^\s*$' && indent(l:l) < l:defn_indent
+                        if getline(l:l) !~# '^\s*$' && indent(l:l) <= l:defn_indent
                             throw "defn-not-found"
                         endif
                     endfor

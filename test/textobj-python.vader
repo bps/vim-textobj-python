@@ -159,8 +159,8 @@ Execute (Old-style no ancestor class a class):
   AssertEqual 86, getpos("'<")[1]
   AssertEqual 91, getpos("'>")[1]
 
-# Execute (Don't cross scope for defn):
-#   call cursor(80, 1)
-#   normal vif<Esc>
-#   AssertEqual 80, getpos("'<")[1]
-#   AssertEqual 80, getpos("'<")[1]
+Execute (Don't cross scope for defn):
+  call cursor(80, 1)
+  normal vif<Esc>
+  AssertEqual 80, getpos("'<")[1]
+  AssertEqual 80, getpos("'<")[1]
