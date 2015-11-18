@@ -46,7 +46,7 @@ call textobj#user#plugin('python', {
 \       'select-i': '<buffer>ic',
 \       'select-a-function': 'textobj#python#class_select_a',
 \       'select-i-function': 'textobj#python#class_select_i',
-\       'pattern': '^\s*\zsclass .*:',
+\       'pattern': '^\s*\zsclass \(.\|\n\)\{-}:',
 \       'move-p': '<buffer>[pc',
 \       'move-n': '<buffer>]pc',
 \   },
@@ -56,7 +56,7 @@ call textobj#user#plugin('python', {
 \       'select-i': '<buffer>if',
 \       'select-a-function': 'textobj#python#function_select_a',
 \       'select-i-function': 'textobj#python#function_select_i',
-\       'pattern': '^\s*\zsdef .*:',
+\       'pattern': '^\s*\zsdef \(.\|\n\)\{-}:',
 \       'move-p': '<buffer>[pf',
 \       'move-n': '<buffer>]pf',
 \   }
