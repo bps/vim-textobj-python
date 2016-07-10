@@ -102,6 +102,7 @@ class ClassWithDecorator:
 @decorator
 @decorator(1, 2)
 class ClassWithDecorators:
+    # ClassWithDecorator
     pass
 
 
@@ -113,4 +114,5 @@ def function_with_decorator():
 @decorator
 @decorator(1, 2)
 def function_with_decorators():
+    # function_with_decorators
     pass

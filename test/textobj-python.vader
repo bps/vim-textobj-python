@@ -178,8 +178,25 @@ Execute (Decorator: function):
 
 Execute (Decorators: function):
   /^def function_with_decorators(
-  let linenr = getpos(".")[1]
   norm jvaf<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: inner function):
+  /^def function_with_decorators(
+  norm jvif<cr>
+  AssertEqual getline("."), "# function_with_decorators"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: inner function from decorator):
+  /^def function_with_decorators(
+  norm kvif<cr>
+  AssertEqual getline("."), "# function_with_decorators"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: a function from decorator):
+  /^def function_with_decorators(
+  norm kvaf<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
 
@@ -193,7 +210,12 @@ Execute (Decorator: class):
 
 Execute (Decorators: class):
   /^class ClassWithDecorators:
-  let linenr = getpos(".")[1]
   norm jvac<cr>
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
+
+Execute (Decorators: class from decorator):
+  /^class ClassWithDecorators:
+  norm kvac<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"

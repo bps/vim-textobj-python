@@ -33,8 +33,12 @@ endfunction
 
 function! textobj#python#find_defn_line(kwd)
     " Find the defn line
-    let l:cur_pos = getpos('.')
     let l:cur_line = getline('.')
+    while l:cur_line =~# '^\s*@'
+        normal! j
+        let l:cur_line = getline('.')
+    endwhile
+    let l:cur_pos = getpos('.')
     if l:cur_line =~# '^\s*'.a:kwd.' '
         let l:defn_pos = l:cur_pos
     else
@@ -120,7 +124,7 @@ function! textobj#python#find_last_line(kwd, defn_pos, indent_level)
     return l:end_pos
 endfunction
 
-function! textobj#python#select_a(kwd)
+function! s:find_defn(kwd)
     call textobj#python#move_cursor_to_starting_line()
 
     try
@@ -131,17 +135,21 @@ function! textobj#python#select_a(kwd)
     let l:defn_indent_level = indent(l:defn_pos[1])
 
     let l:end_pos = textobj#python#find_last_line(a:kwd, l:defn_pos, l:defn_indent_level)
-
-    let l:defn_pos[1] = textobj#python#find_prev_decorators(l:defn_pos[1])
-
     return ['V', l:defn_pos, l:end_pos]
 endfunction
 
+function! textobj#python#select_a(kwd)
+    let l:defn_pos = s:find_defn(a:kwd)
+    if type(l:defn_pos) == type([])
+        let l:defn_pos[1][1] = textobj#python#find_prev_decorators(l:defn_pos[1][1])
+        return l:defn_pos
+    endif
+    return 0
+endfunction
+
 function! textobj#python#select_i(kwd)
-    let l:a_pos = textobj#python#select_a(a:kwd)
-    if type(l:a_pos) != type([])
-        return 0
-    else
+    let l:a_pos = s:find_defn(a:kwd)
+    if type(l:a_pos) == type([])
         if l:a_pos[1][1] == l:a_pos[2][1]
             " This is a one-liner, treat it like af
             " TODO Maybe change this to a 'v'-mode selection and only get the
@@ -157,6 +165,7 @@ function! textobj#python#select_i(kwd)
         let l:start_pos = getpos('.')
         return ['V', l:start_pos, l:a_pos[2]]
     endif
+    return 0
 endfunction
 
 function! textobj#python#class_select_a()
