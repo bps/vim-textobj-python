@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Change to script's directory.
-cd -P -- "$(dirname -- "$0")"
+CDPATH= cd -P -- "$(dirname -- "$0")"
 
 # Look for existing vader and textobj-user installations, and link them.
 link_or_clone() {
