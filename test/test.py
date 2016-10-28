@@ -116,3 +116,8 @@ def function_with_decorator():
 def function_with_decorators():
     # function_with_decorators
     pass
+
+
+async def function_name(foo):
+    # asynchronous function
+    pass

@@ -75,6 +75,18 @@ Execute (Inner nested function a function):
   AssertEqual 31, getpos("'<")[1]
   AssertEqual 33, getpos("'>")[1]
 
+Execute (Inner asynchronous function):
+  call cursor(122, 1)
+  normal vif<cr>
+  AssertEqual 122, getpos("'<")[1]
+  AssertEqual 123, getpos("'>")[1]
+
+Execute (Outer asynchronous function):
+  call cursor(122, 1)
+  normal vaf<cr>
+  AssertEqual 121, getpos("'<")[1]
+  AssertEqual 123, getpos("'>")[1]
+
 Execute (Simple inner class):
   call cursor(41, 1)
   normal vic<cr>
