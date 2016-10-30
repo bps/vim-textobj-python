@@ -56,7 +56,7 @@ call textobj#user#plugin('python', {
 \       'select-i': '<buffer>if',
 \       'select-a-function': 'textobj#python#function_select_a',
 \       'select-i-function': 'textobj#python#function_select_i',
-\       'pattern': '^\s*\zsdef \(.\|\n\)\{-}:',
+\       'pattern': '^\s*\zs\(def\|async def\) \(.\|\n\)\{-}:',
 \       'move-p': '<buffer>[pf',
 \       'move-n': '<buffer>]pf',
 \   }
