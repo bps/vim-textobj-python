@@ -32,12 +32,29 @@ function! textobj#python#move_cursor_to_starting_line()
 endfunction
 
 function! textobj#python#find_defn_line(kwd)
-    " Find the defn line
-    let l:cur_line = getline('.')
-    while l:cur_line =~# '^\s*@'
-        normal! j
-        let l:cur_line = getline('.')
+
+    " Skip decorators
+    while getline('.') !~# '^\s*'.a:kwd.' '
+      " Avoid skipping decorator under the cursor
+      normal! $
+      let l:cur_pos = getpos('.')
+      let l:decorator = search('^\s*@.*(\?', 'bW')
+      if l:decorator == 0 
+        break
+      endif
+      " Match r-parent if any
+      normal! 0
+      normal! %
+      normal! j
+      let l:new_pos = getpos('.')
+      if  l:new_pos[1] <= l:cur_pos[1]
+        call setpos('.', l:cur_pos)
+        break
+      endif
     endwhile
+
+    let l:cur_line = getline('.')
+
     let l:cur_pos = getpos('.')
     if l:cur_line =~# '^\s*'.a:kwd.' '
         let l:defn_pos = l:cur_pos
