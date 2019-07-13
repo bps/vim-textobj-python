@@ -309,3 +309,9 @@ Execute (Decorators: inner class from decorators with multiple lines (6)):
   norm 12kvic<cr>
   AssertEqual getline("."), "# ClassWithMultilineDecorators"
   AssertEqual getline("'>"), "pass"
+
+Execute (FIXME Decorators: class with decorators with multiple lines):
+  /^class ClassWithMultilineDecorators:
+  norm kvac
+  AssertEqual getline("."), "@decorator"
+  AssertEqual getline("'>"), "pass"
