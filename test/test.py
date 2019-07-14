@@ -121,3 +121,36 @@ def function_with_decorators():
 async def function_name(foo):
     # asynchronous function
     pass
+
+
+@decorator
+@decorator('one', 'two')
+@decorator(1, 2)
+@decorator(
+    1,
+    2,
+)
+@decorator(
+    1,
+    # comment
+    2,
+)
+def function_with_multiline_decorators():
+    # function_with_multiline_decorators
+    pass
+
+@decorator
+@decorator('one', 'two')
+@decorator(1, 2)
+@decorator(
+    1,
+    2,
+)
+@decorator(
+    1,
+    # comment
+    2,
+)
+class ClassWithMultilineDecorators:
+    # ClassWithMultilineDecorators
+    pass
