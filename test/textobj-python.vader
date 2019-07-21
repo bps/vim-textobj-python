@@ -246,7 +246,7 @@ Execute (Decorators: inner function from decorators with multiple lines (6)):
 
 Execute (Decorators: function with decorators with multiple lines):
   /^def function_with_multiline_decorators(
-  norm kvaf
+  norm kvaf<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
 
@@ -316,6 +316,6 @@ Execute (Decorators: inner class from decorators with multiple lines (6)):
 
 Execute (Decorators: class with decorators with multiple lines):
   /^class ClassWithMultilineDecorators:
-  norm kvac
+  norm kvac<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
