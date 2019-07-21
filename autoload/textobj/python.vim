@@ -111,6 +111,7 @@ function! textobj#python#find_prev_decorators(l)
             break
         endif
 
+        " Match l-parent if any
         normal! $
         normal! %
 
