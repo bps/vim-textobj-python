@@ -184,6 +184,8 @@ Execute (Decorator: function):
   let linenr = getpos(".")[1]
 "   debug call textobj#python#find_prev_decorators(linenr)
   AssertEqual linenr-1, textobj#python#find_prev_decorators(linenr)
+  " Move cursor back
+  /^def function_with_decorator(
   norm jvaf<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
@@ -242,9 +244,9 @@ Execute (Decorators: inner function from decorators with multiple lines (6)):
   AssertEqual getline("."), "# function_with_multiline_decorators"
   AssertEqual getline("'>"), "pass"
 
-Execute (FIXME Decorators: function with decorators with multiple lines):
+Execute (Decorators: function with decorators with multiple lines):
   /^def function_with_multiline_decorators(
-  norm kvaf
+  norm kvaf<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
 
@@ -258,6 +260,8 @@ Execute (Decorator: class):
   /^class ClassWithDecorator:
   let linenr = getpos(".")[1]
   AssertEqual linenr-1, textobj#python#find_prev_decorators(linenr)
+  " Move cursor back
+  /^class ClassWithDecorator:
   norm jvac<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
@@ -310,8 +314,8 @@ Execute (Decorators: inner class from decorators with multiple lines (6)):
   AssertEqual getline("."), "# ClassWithMultilineDecorators"
   AssertEqual getline("'>"), "pass"
 
-Execute (FIXME Decorators: class with decorators with multiple lines):
+Execute (Decorators: class with decorators with multiple lines):
   /^class ClassWithMultilineDecorators:
-  norm kvac
+  norm kvac<cr>
   AssertEqual getline("."), "@decorator"
   AssertEqual getline("'>"), "pass"
