@@ -188,6 +188,8 @@ function! s:select_surrounding_blank_lines(pos)
         else
             let l:defn_pos[2][1] = l:next_block_linenr - 1
         endif
+    else
+        let l:defn_pos[1][1] = prevnonblank(l:defn_pos[1][1] - 1) + 1
     endif
     return l:defn_pos
 endfunction
