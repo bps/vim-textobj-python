@@ -129,7 +129,7 @@ Execute (Nested classes inner inner class):
   AssertEqual 58, getpos("'<")[1]
   AssertEqual 58, getpos("'>")[1]
 
-Execute (FIXME Nested classes inner a class):
+Execute (Nested classes inner a class):
   call cursor(57, 1)
   normal vac<cr>
   AssertEqual 57, getpos("'<")[1]
@@ -141,7 +141,7 @@ Execute (Class nested in function inner class):
   AssertEqual 66, getpos("'<")[1]
   AssertEqual 70, getpos("'>")[1]
 
-Execute (FIXME Class nested in function a class):
+Execute (Class nested in function a class):
   call cursor(65, 1)
   normal vac<cr>
   AssertEqual 65, getpos("'<")[1]
