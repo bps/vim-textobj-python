@@ -197,8 +197,8 @@ endfunction
 function! textobj#python#select_a(kwd)
     let l:defn_pos = s:find_defn(a:kwd)
     if type(l:defn_pos) == type([])
-        let l:defn_pos = s:select_surrounding_blank_lines(l:defn_pos)
         let l:defn_pos[1][1] = textobj#python#find_prev_decorators(l:defn_pos[1][1])
+        let l:defn_pos = s:select_surrounding_blank_lines(l:defn_pos)
         return l:defn_pos
     endif
     return 0

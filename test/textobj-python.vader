@@ -179,6 +179,12 @@ Execute (Don't cross scope for defn):
   AssertEqual getpos(".")[1], linenr, "The line should not have changed."
   AssertThrows textobj#python#find_defn_line("def")
 
+Execute (Method with decorator):
+  /^    def method_with_decorator(
+  norm vaf<cr>
+  AssertEqual getpos("'<")[1], 163
+  AssertEqual getpos("'>")[1], 166
+
 Execute (At end of file, select prior whitespace):
   /^def at_end_of_file(
   norm vaf<cr>
