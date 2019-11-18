@@ -13,7 +13,7 @@ Execute (Regular a function):
   call cursor(4,5)
   normal vaf<cr>
   AssertEqual 3, getpos("'<")[1]
-  AssertEqual 7, getpos("'>")[1]
+  AssertEqual 9, getpos("'>")[1]
 
 Execute (Multiline defn inner function):
   call cursor(15, 11)
@@ -25,7 +25,7 @@ Execute (Multiline defn a function):
   call cursor(15, 11)
   normal vaf<cr>
   AssertEqual 13, getpos("'<")[1]
-  AssertEqual 18, getpos("'>")[1]
+  AssertEqual 20, getpos("'>")[1]
 
 Execute (One-liner inner function):
   call cursor(21, 12)
@@ -37,7 +37,7 @@ Execute (One-liner a function):
   call cursor(21, 12)
   normal vaf<cr>
   AssertEqual 21, getpos("'<")[1]
-  AssertEqual 21, getpos("'>")[1]
+  AssertEqual 23, getpos("'>")[1]
 
 Execute (FIXME Multiline defn one-liner inner function):
   call cursor(24, 5)
@@ -49,7 +49,7 @@ Execute (Multiline defn one-liner a function):
   call cursor(24, 5)
   normal vaf<cr>
   AssertEqual 24, getpos("'<")[1]
-  AssertEqual 25, getpos("'>")[1]
+  AssertEqual 27, getpos("'>")[1]
 
 Execute (Outer nested function inner function):
   call cursor(29, 1)
@@ -61,7 +61,7 @@ Execute (Outer nested function a function):
   call cursor(29, 1)
   normal vaf<cr>
   AssertEqual 28, getpos("'<")[1]
-  AssertEqual 34, getpos("'>")[1]
+  AssertEqual 36, getpos("'>")[1]
 
 Execute (Inner nested function inner function):
   call cursor(32, 1)
@@ -85,7 +85,7 @@ Execute (Outer asynchronous function):
   call cursor(122, 1)
   normal vaf<cr>
   AssertEqual 121, getpos("'<")[1]
-  AssertEqual 123, getpos("'>")[1]
+  AssertEqual 125, getpos("'>")[1]
 
 Execute (Simple inner class):
   call cursor(41, 1)
@@ -97,7 +97,7 @@ Execute (Simple a class):
   call cursor(41, 1)
   normal vac<cr>
   AssertEqual 37, getpos("'<")[1]
-  AssertEqual 44, getpos("'>")[1]
+  AssertEqual 46, getpos("'>")[1]
 
 Execute (Multiple members inner class):
   call cursor(52, 1)
@@ -109,7 +109,7 @@ Execute (Multiple members a class):
   call cursor(52, 1)
   normal vac<cr>
   AssertEqual 47, getpos("'<")[1]
-  AssertEqual 53, getpos("'>")[1]
+  AssertEqual 55, getpos("'>")[1]
 
 Execute (Nested classes outer inner class):
   call cursor(56, 1)
@@ -121,7 +121,7 @@ Execute (Nested classes outer a class):
   call cursor(56, 1)
   normal vac<cr>
   AssertEqual 56, getpos("'<")[1]
-  AssertEqual 58, getpos("'>")[1]
+  AssertEqual 60, getpos("'>")[1]
 
 Execute (Nested classes inner inner class):
   call cursor(57, 1)
@@ -145,7 +145,7 @@ Execute (Class nested in function a class):
   call cursor(65, 1)
   normal vac<cr>
   AssertEqual 65, getpos("'<")[1]
-  AssertEqual 70, getpos("'>")[1]
+  AssertEqual 71, getpos("'>")[1]
 
 Execute (Function while in class nested in function inner class):
   call cursor(65, 1)
@@ -157,7 +157,7 @@ Execute (Function while in class nested in function a class):
   call cursor(65, 1)
   normal vaf<cr>
   AssertEqual 61, getpos("'<")[1]
-  AssertEqual 70, getpos("'>")[1]
+  AssertEqual 72, getpos("'>")[1]
 
 Execute (Old-style no ancestor class inner class):
   call cursor(86, 9)
@@ -169,7 +169,7 @@ Execute (Old-style no ancestor class a class):
   call cursor(86, 9)
   normal vac<cr>
   AssertEqual 86, getpos("'<")[1]
-  AssertEqual 91, getpos("'>")[1]
+  AssertEqual 93, getpos("'>")[1]
 
 Execute (Don't cross scope for defn):
   /^class no_defs
@@ -178,6 +178,18 @@ Execute (Don't cross scope for defn):
   norm vaf<cr>
   AssertEqual getpos(".")[1], linenr, "The line should not have changed."
   AssertThrows textobj#python#find_defn_line("def")
+
+Execute (Method with decorator):
+  /^    def method_with_decorator(
+  norm vaf<cr>
+  AssertEqual getpos("'<")[1], 163
+  AssertEqual getpos("'>")[1], 166
+
+Execute (At end of file, select prior whitespace):
+  /^def at_end_of_file(
+  norm vaf<cr>
+  AssertEqual getpos("'<")[1], line("$") - 3
+  AssertEqual getpos("'>")[1], line("$")
 
 Execute (Decorator: function):
   /^def function_with_decorator(
@@ -188,13 +200,14 @@ Execute (Decorator: function):
   /^def function_with_decorator(
   norm jvaf<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 3
 
 Execute (Decorators: function):
   /^def function_with_decorators(
+  let linenr = getpos(".")[1]
   norm jvaf<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 4
 
 Execute (Decorators: inner function):
   /^def function_with_decorators(
@@ -246,15 +259,17 @@ Execute (Decorators: inner function from decorators with multiple lines (6)):
 
 Execute (Decorators: function with decorators with multiple lines):
   /^def function_with_multiline_decorators(
+  let linenr = getpos(".")[1]
   norm kvaf<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 3
 
 Execute (Decorators: a function from decorator):
   /^def function_with_decorators(
+  let linenr = getpos(".")[1]
   norm kvaf<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 4
 
 Execute (Decorator: class):
   /^class ClassWithDecorator:
@@ -264,19 +279,21 @@ Execute (Decorator: class):
   /^class ClassWithDecorator:
   norm jvac<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 3
 
 Execute (Decorators: class):
   /^class ClassWithDecorators:
+  let linenr = getpos(".")[1]
   norm jvac<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 4
 
 Execute (Decorators: class from decorator):
   /^class ClassWithDecorators:
+  let linenr = getpos(".")[1]
   norm kvac<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], linenr + 4
 
 Execute (Decorators: inner class from decorators with multiple lines):
   /^class ClassWithMultilineDecorators:
@@ -316,6 +333,8 @@ Execute (Decorators: inner class from decorators with multiple lines (6)):
 
 Execute (Decorators: class with decorators with multiple lines):
   /^class ClassWithMultilineDecorators:
+  let linenr = getpos(".")[1]
   norm kvac<cr>
   AssertEqual getline("."), "@decorator"
-  AssertEqual getline("'>"), "pass"
+  AssertEqual getpos("'>")[1], 158
+  AssertEqual getpos("'>")[1], linenr + 4

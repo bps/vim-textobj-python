@@ -172,10 +172,33 @@ function! s:find_defn(kwd)
     return ['V', l:defn_pos, l:end_pos]
 endfunction
 
+function! s:select_surrounding_blank_lines(pos)
+    let l:defn_pos = copy(a:pos)
+
+    let l:blanks_on_start = l:defn_pos[1][1] - (prevnonblank(l:defn_pos[1][1] - 1) + 1)
+    let l:current_block_indent_level = indent(l:defn_pos[1][1])
+    let l:next_block_linenr = nextnonblank(l:defn_pos[2][1] + 1)
+    let l:next_block_indent_level = indent(l:next_block_linenr)
+
+    if l:next_block_linenr != 0
+        if l:current_block_indent_level != 0 && l:next_block_indent_level == 0
+            let l:desired_blanks = 2
+            let l:desired_blanks = max([0, l:desired_blanks - l:blanks_on_start])
+            let l:defn_pos[2][1] = l:next_block_linenr - 1 - l:desired_blanks
+        else
+            let l:defn_pos[2][1] = l:next_block_linenr - 1
+        endif
+    else
+        let l:defn_pos[1][1] = prevnonblank(l:defn_pos[1][1] - 1) + 1
+    endif
+    return l:defn_pos
+endfunction
+
 function! textobj#python#select_a(kwd)
     let l:defn_pos = s:find_defn(a:kwd)
     if type(l:defn_pos) == type([])
         let l:defn_pos[1][1] = textobj#python#find_prev_decorators(l:defn_pos[1][1])
+        let l:defn_pos = s:select_surrounding_blank_lines(l:defn_pos)
         return l:defn_pos
     endif
     return 0

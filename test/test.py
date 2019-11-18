@@ -154,3 +154,16 @@ def function_with_multiline_decorators():
 class ClassWithMultilineDecorators:
     # ClassWithMultilineDecorators
     pass
+
+
+class RegularClass():
+    def foo(self):
+        pass
+
+    @decorator
+    def method_with_decorator(self):
+        pass
+
+
+def at_end_of_file():
+    pass
